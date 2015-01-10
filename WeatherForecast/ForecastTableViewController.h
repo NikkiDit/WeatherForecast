@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@interface  ForecastTableViewController  : UITableViewController
 
-
-@interface ForecastTableViewController : UITableViewController
-
-
-
+-(void) loadWeatherData: (NSString *)query;
 @end

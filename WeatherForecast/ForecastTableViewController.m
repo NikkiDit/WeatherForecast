@@ -11,11 +11,13 @@
 #import "AFNetworking.h"
 #import "WeatherForecastDelegate.m"
 #import "WeatherForecastData.h"
+#import "WeatherCell.h"
+#import "CurrentWeatherViewController.h"
 
 
 @interface ForecastTableViewController ()
-@property NSData *weatherInfo;
-@property NSArray *weatherDataReceived;
+
+@property NSData *weatherDataReceived;
 
 @end
 
@@ -24,28 +26,34 @@
 
 {
     Weather *theWeatherForecast;
+    CurrentWeatherViewController *mycurent;
 }
-NSString  *icon = @"http://openweathermap.org/img/w/";
-NSString  *query =@"Dublin";
 
+
+NSString  *icon = @"http://openweathermap.org/img/w/";
+
+//NSString  *query;
+
+NSArray  *parsedWeatherData;
 - (void)viewDidLoad {
     [super viewDidLoad];
   
     theWeatherForecast =[[Weather alloc]init];
    
-   self.weatherInfo= [[NSData alloc] init];
+   self.weatherDataReceived= [[NSData alloc] init];
 
-  [self loadWeatherData:(NSString *)query];
-  
+   
+    
+    
+   }
 
 
-}
 
 
 -(void) loadWeatherData: (NSString *)query{
     NSString *weatherURLText = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/forecast/daily?q=%@&cnt=5",query];
     NSLog(@"%@",query);
-    
+   
     
     NSURL *weatherURL = [NSURL URLWithString:weatherURLText];
     NSURLRequest *weatherRequest = [NSURLRequest requestWithURL:weatherURL];
@@ -55,11 +63,16 @@ NSString  *query =@"Dublin";
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:weatherRequest];
     operation.responseSerializer =[AFJSONResponseSerializer serializer];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject){
+        NSLog(@"%@", responseObject);
+      self.weatherDataReceived =(NSData *) responseObject;
         
-      theWeatherForecast.fiveDaysWeatherServiceResponse =(NSDictionary *) responseObject;
-    //    NSLog(@"%@",theWeatherForecast.fiveDaysWeatherServiceResponse);
-      [theWeatherForecast parseWeatherServiceResponseForecast];
+        parsedWeatherData=[WeatherForecastData WeatherDataFromJSON:self.weatherDataReceived];
+          [self.tableView reloadData];
+        
+        
+        
     }
+    
                                      failure:^(AFHTTPRequestOperation *operation, NSError *error){
                                          UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"Error Retrieving Weather"
                                                                                            message:[error localizedDescription]
@@ -71,13 +84,7 @@ NSString  *query =@"Dublin";
     
     [operation start];
     
-      [self.tableView reloadData];
 }
-
-
-
-
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -88,45 +95,56 @@ NSString  *query =@"Dublin";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return theWeatherForecast.weatherData.count;
+    return parsedWeatherData.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"weatherCell" forIndexPath:indexPath];
+   WeatherCell  *cell = [tableView dequeueReusableCellWithIdentifier:@"weatherCell" forIndexPath:indexPath];
     
-    Weather  *weatherData =[theWeatherForecast.weatherData objectAtIndex:indexPath.row];
-    cell.textLabel.text =[NSString stringWithFormat: @"%2.1f" , theWeatherForecast.tempCurrent]  ;
- 
+    Weather  *weatherData =[parsedWeatherData objectAtIndex:indexPath.row];
     
-    NSLog(@"%2.1f" , weatherData.tempCurrent);
     
-    cell.detailTextLabel.text=[NSString stringWithFormat: @"%@\n", theWeatherForecast.conditions[0][@"description"]];
-    if (theWeatherForecast.conditions[0][@"icon"] != nil)
+    double tempday =[[NSString stringWithFormat: @"%@", weatherData.forecastTemp]doubleValue];
+    tempday = [theWeatherForecast kelvinToCelsius:tempday];
+    double tempMax =[[NSString stringWithFormat: @"%@", weatherData.forecastTempmax]doubleValue];
+    tempMax = [theWeatherForecast kelvinToCelsius:tempMax];
+    
+    
+    double tempMin =[[NSString stringWithFormat: @"%@", weatherData.forecastTempmin]doubleValue];
+    tempMin = [theWeatherForecast kelvinToCelsius:tempMin];
+    
+    cell.tempday.text =[NSString stringWithFormat: @"%2.1f C" ,tempday];
+   
+    
+    cell.humidity.text = [NSString stringWithFormat: @"Humidity: %d %%" , weatherData.humidity];
+    
+    
+    cell.reportTime.text =[[NSString stringWithFormat:@"%@", weatherData.reportTime]substringToIndex:10];
+    
+    cell.tempMax.text =[NSString stringWithFormat: @"Maximum: %2.1f C" , tempMax];
+   
+    cell.tempMin.text=[NSString stringWithFormat: @"Minimum: %2.1f C" , tempMin];
+    
+    cell.speed.text = [NSString stringWithFormat: @"Wind Speed: %2.1f m/s" , weatherData.windSpeed];
+    
+    //cell.cloud.text = [NSString stringWithFormat:@"%d", weatherData.cloudCover];
+    
+    cell.condition.text=[NSString stringWithFormat: @"%@", weatherData.conditions[0][@"description"]];
+    if (weatherData.conditions[0][@"icon"] != nil)
     {
         
         
-    NSString *iconUrl_String= [icon stringByAppendingString:theWeatherForecast.conditions[0][@"icon"]];
+    NSString *iconUrl_String= [icon stringByAppendingString:weatherData.conditions[0][@"icon"]];
         
         iconUrl_String= [iconUrl_String stringByAppendingString:@".png"];
         
-         cell.imageView.image =  [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:iconUrl_String ]]];
+         cell.icon.image =  [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:iconUrl_String ]]];
     }
  
     return cell;
 }
 
-#
-
-
-/*
-    - (void)didReceiveGroups:(NSArray *)groups
-{
-    _groups = groups;
-    [self.tableView reloadData];
-}
-
-*/
 /*
 #pragma mark - Navigation
 

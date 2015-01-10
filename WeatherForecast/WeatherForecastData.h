@@ -10,5 +10,5 @@
 
 @interface WeatherForecastData : NSObject
 +(NSArray *) WeatherDataFromJSON:(NSData *)weatherInfo;
-
+@property NSMutableArray *weatherData;
 @end

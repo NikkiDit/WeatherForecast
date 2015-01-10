@@ -10,35 +10,43 @@
 
 @interface Weather : NSObject
 // Place and time
-@property (nonatomic, copy, readonly)NSString *city;
-@property (nonatomic, copy, readonly)NSString *country;
-@property (nonatomic, readonly)double latitude;
-@property (nonatomic, readonly)double longitude;
-@property (nonatomic, copy, readonly) NSDate *reportTime;
-@property (nonatomic, copy, readonly) NSDate *sunrise;
-@property (nonatomic, copy, readonly) NSDate *sunset;
+@property (nonatomic, copy)NSString *city;
+@property (nonatomic, copy)NSString *country;
+@property (nonatomic)double latitude;
+@property (nonatomic)double longitude;
+@property (nonatomic, copy) NSDate *reportTime;
+@property (nonatomic, copy) NSDate *sunrise;
+@property (nonatomic, copy) NSDate *sunset;
+@property (nonatomic, copy) NSString *descriptions;
+@property (nonatomic,copy) NSString *icon;
 //Qualitative
-@property (nonatomic,copy,readonly) NSArray *conditions;
-@property (nonatomic,copy,readonly) NSArray *list;
-
+@property (nonatomic,copy) NSArray *conditions;
+@property (nonatomic,copy) NSArray *list;
+@property (nonatomic,copy)NSNumber *forecastTemp;
+@property (nonatomic,copy) NSArray *forecastTempmax;
+@property (nonatomic,copy) NSArray *forecastTempmin;
 // Qualitative
-@property (nonatomic, readonly) NSInteger cloudCover;
-@property (nonatomic, readonly) NSInteger humidity;
-@property (nonatomic, readonly) NSInteger pressure;
-@property (nonatomic, readonly) NSInteger rain3hours;
-@property (nonatomic, readonly) NSInteger snow3hours;
-@property (nonatomic, readonly) double tempCurrent;
-@property (nonatomic, readonly) double tempMin;
-@property (nonatomic, readonly) double tempMax;
-@property (nonatomic, readonly) NSInteger windDirection;
-@property (nonatomic, readonly) double windSpeed;
+@property (nonatomic) NSInteger cloudCover;
+@property (nonatomic) NSInteger humidity;
+@property (nonatomic) NSInteger pressure;
+@property (nonatomic) NSInteger rain3hours;
+@property (nonatomic) NSInteger snow3hours;
+@property (nonatomic) double tempCurrent;
+@property (nonatomic) double tempMin;
+@property (nonatomic) double tempMax;
+@property (nonatomic) NSInteger windDirection;
+@property (nonatomic) double windSpeed;
 
-// Methods
-
--(void)parseWeatherServiceResponse;
--(void)parseWeatherServiceResponseForecast;
 @property NSDictionary *weatherServiceResponse;
 @property NSDictionary *fiveDaysWeatherServiceResponse;
 @property NSDictionary *weatherDic;
 @property NSMutableArray *weatherData;
+
+// Methods
+
+-(void)parseWeatherServiceResponse;
+
+-(double)kelvinToCelsius:(double)degreesKelvin;
+
+
 @end

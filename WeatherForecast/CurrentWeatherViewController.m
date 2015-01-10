@@ -21,8 +21,11 @@
     Weather *theWeather;
 
 }
+
+//@synthesize location =_location;
 NSString  *iconUrl = @"http://openweathermap.org/img/w/";
 NSString  *iconUrlString = @"";
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,6 +36,7 @@ NSString  *iconUrlString = @"";
 
 
 - (IBAction)SearchWeather:(id)sender {
+
     
     _location = self.searchTextField.text;
     
@@ -63,12 +67,19 @@ NSString  *iconUrlString = @"";
     [operation start];
     
     
-    self.city.text =[NSString stringWithFormat:@"Weather in %@%@\n", theWeather.city,theWeather.country];
+    self.city.text =[NSString stringWithFormat:@"Weather in %@, %@\n", theWeather.city,theWeather.country];
     self.condition.text = [NSString stringWithFormat: @"%@\n", theWeather.conditions[0][@"description"]];
-    self.currentTemp.text = [NSString stringWithFormat: @"%2.1f" , theWeather.tempCurrent];
-    self.windSpeed.text =[NSString stringWithFormat: @"Wind Speed.: %2.1f" , theWeather.windSpeed];
-    self.humidity.text = [NSString stringWithFormat: @"Humidity.: %d" , theWeather.humidity];
-    self.reportTime.text =[NSString stringWithFormat: @"%@" , theWeather.reportTime];
+    self.currentTemp.text = [NSString stringWithFormat: @"%2.1f C" , theWeather.tempCurrent];
+    self.windSpeed.text =[NSString stringWithFormat: @"Wind Speed: %2.1f m/s" , theWeather.windSpeed];
+    self.humidity.text = [NSString stringWithFormat: @"Humidity: %d %%" , theWeather.humidity];
+    NSInteger mytimeLen = [[NSString stringWithFormat: @"%@" , theWeather.reportTime] length];
+    NSLog(@"%d", mytimeLen);
+    if (mytimeLen>6) {
+         self.reportTime.text =[[NSString stringWithFormat: @"Time: %@" , theWeather.reportTime]substringToIndex:22];
+    }else{
+          self.reportTime.text =[NSString stringWithFormat: @"Time: %@" , theWeather.reportTime];
+    }
+   
     
     
     if (theWeather.conditions[0][@"icon"] != nil)
@@ -82,12 +93,19 @@ NSString  *iconUrlString = @"";
         self.icon.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:iconUrlString ]]];
     }
     
-
-    
 }
 
 
+#pragma mark - Segues
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"getLocation"]) {
+     //[[segue destinationViewController]loadWeatherData:_location ];
+      ForecastTableViewController *destViewController = segue.destinationViewController;
+        [destViewController loadWeatherData:_location];
+    }
+    
 
+}
 
 @end

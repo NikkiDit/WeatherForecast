@@ -10,6 +10,7 @@
 
 @interface CurrentWeatherViewController : UIViewController
 - (IBAction)SearchWeather:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UILabel *city;
 @property (weak, nonatomic) IBOutlet UILabel *currentTemp;

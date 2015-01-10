@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		29429E131A5D08DB008D00F2 /* WeatherForecastDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29429E121A5D08DB008D00F2 /* WeatherForecastDelegate.m */; };
 		29429E161A5D0C60008D00F2 /* WeatherForecastData.m in Sources */ = {isa = PBXBuildFile; fileRef = 29429E151A5D0C60008D00F2 /* WeatherForecastData.m */; };
+		296695431A6023F60020C851 /* WeatherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 296695421A6023F60020C851 /* WeatherCell.m */; };
+		296695461A6191C90020C851 /* WeatherTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 296695451A6191C90020C851 /* WeatherTabController.m */; };
 		29973C8C1A5BA5C0004A27E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29973C8B1A5BA5C0004A27E1 /* main.m */; };
 		29973C8F1A5BA5C0004A27E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29973C8E1A5BA5C0004A27E1 /* AppDelegate.m */; };
 		29973C921A5BA5C0004A27E1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29973C911A5BA5C0004A27E1 /* ViewController.m */; };
@@ -51,6 +53,10 @@
 		29429E121A5D08DB008D00F2 /* WeatherForecastDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherForecastDelegate.m; sourceTree = "<group>"; };
 		29429E141A5D0C60008D00F2 /* WeatherForecastData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherForecastData.h; sourceTree = "<group>"; };
 		29429E151A5D0C60008D00F2 /* WeatherForecastData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherForecastData.m; sourceTree = "<group>"; };
+		296695411A6023F60020C851 /* WeatherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherCell.h; sourceTree = "<group>"; };
+		296695421A6023F60020C851 /* WeatherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherCell.m; sourceTree = "<group>"; };
+		296695441A6191C90020C851 /* WeatherTabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherTabController.h; sourceTree = "<group>"; };
+		296695451A6191C90020C851 /* WeatherTabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherTabController.m; sourceTree = "<group>"; };
 		29973C861A5BA5C0004A27E1 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29973C8A1A5BA5C0004A27E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29973C8B1A5BA5C0004A27E1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -164,6 +170,10 @@
 				29973C931A5BA5C0004A27E1 /* Main.storyboard */,
 				29973C981A5BA5C0004A27E1 /* LaunchScreen.xib */,
 				29973C891A5BA5C0004A27E1 /* Supporting Files */,
+				296695411A6023F60020C851 /* WeatherCell.h */,
+				296695421A6023F60020C851 /* WeatherCell.m */,
+				296695441A6191C90020C851 /* WeatherTabController.h */,
+				296695451A6191C90020C851 /* WeatherTabController.m */,
 			);
 			path = WeatherForecast;
 			sourceTree = "<group>";
@@ -344,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				29973CE61A5BAD97004A27E1 /* UIProgressView+AFNetworking.m in Sources */,
+				296695461A6191C90020C851 /* WeatherTabController.m in Sources */,
 				29973CE41A5BAD97004A27E1 /* UIButton+AFNetworking.m in Sources */,
 				29973CE71A5BAD97004A27E1 /* UIRefreshControl+AFNetworking.m in Sources */,
 				29973CE31A5BAD97004A27E1 /* UIAlertView+AFNetworking.m in Sources */,
@@ -357,6 +368,7 @@
 				29973CC61A5BAD84004A27E1 /* AFHTTPRequestOperation.m in Sources */,
 				29429E161A5D0C60008D00F2 /* WeatherForecastData.m in Sources */,
 				29973CE21A5BAD97004A27E1 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				296695431A6023F60020C851 /* WeatherCell.m in Sources */,
 				29973CB11A5BAD20004A27E1 /* Weather.m in Sources */,
 				29973D231A5C29F2004A27E1 /* ForecastTableViewController.m in Sources */,
 				29973CCC1A5BAD84004A27E1 /* AFURLRequestSerialization.m in Sources */,

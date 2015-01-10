@@ -10,13 +10,14 @@
 #import "AFNetworking.h"
 
 @implementation Weather
-//NSDictionary *_weatherDic;
+
 
 -(id)init
 {
     self = [super init];
     _weatherServiceResponse =@{};
     _fiveDaysWeatherServiceResponse=@{};
+    
     _weatherDic=@{};
     
    
@@ -27,11 +28,9 @@
 
 
 -(void)parseWeatherServiceResponse{
-    NSLog(@" I am in the current%@", _weatherServiceResponse);
-    // clouds
+       // clouds
     _cloudCover  = [_weatherServiceResponse [@"clouds"][@"all"] integerValue];
-    NSLog(@"%d@" , _cloudCover);
-    //coordinates
+       //coordinates
     _latitude = [_weatherServiceResponse [@"coord"][@"lat"] doubleValue];
     _longitude = [_weatherServiceResponse [@"coord"][@"lon"] doubleValue];
     
@@ -41,9 +40,9 @@
     //main
     _humidity=[_weatherServiceResponse [@"main"][@"humidity"]integerValue];
     _pressure=[_weatherServiceResponse [@"main"][@"pressure"]integerValue];
-    _tempCurrent=[Weather kelvinToCelsius:[_weatherServiceResponse[@"main"][@"temp"]doubleValue]];
-    _tempMin=[Weather kelvinToCelsius:[_weatherServiceResponse[@"main"][@"temp_min"]doubleValue]];
-    _tempMax=[Weather kelvinToCelsius:[_weatherServiceResponse[@"main"][@"temp_max"]doubleValue]];
+    _tempCurrent=[self kelvinToCelsius:[_weatherServiceResponse[@"main"][@"temp"]doubleValue]];
+    _tempMin=[self kelvinToCelsius:[_weatherServiceResponse[@"main"][@"temp_min"]doubleValue]];
+    _tempMax=[self kelvinToCelsius:[_weatherServiceResponse[@"main"][@"temp_max"]doubleValue]];
     
     // name
     _city=_weatherServiceResponse[@"name"];
@@ -65,7 +64,7 @@
     _windDirection=[_weatherServiceResponse[@"wind"][@"dir"]integerValue];
     _windSpeed=[_weatherServiceResponse[@"wind"][@"speed"]doubleValue];
 }
-
+/*
 
 -(void)parseWeatherServiceResponseForecast{
   
@@ -74,36 +73,26 @@
     NSLog(@"Count %d", results.count);
     _weatherData = [[NSMutableArray alloc] init];
     
+    
     for (NSDictionary *weatherDic in results) {
+        Weather    *aWeather = [[Weather alloc] init];
+        aWeather.tempCurrent = [[weatherDic objectForKey:@"temp"]doubleValue];
+        aWeather.tempMax = [[weatherDic objectForKey:@"temp"]doubleValue];
+        aWeather.tempMin = [[weatherDic objectForKey:@"temp"]doubleValue];
+        aWeather.cloudCover =[[weatherDic objectForKey:@"cloud"]integerValue];
         
-        [_weatherData addObject:weatherDic];
+        aWeather.conditions = [weatherDic objectForKey:@"weather"];
+       aWeather.humidity = [[weatherDic objectForKey:@"humidity"] integerValue];
+        aWeather.reportTime= [NSDate dateWithTimeIntervalSince1970:[[weatherDic objectForKey:@"dt"]doubleValue]];
+        aWeather.windDirection=[[weatherDic objectForKey:@"deg"]doubleValue];
+        aWeather.windSpeed=[[weatherDic objectForKey:@"speed"]integerValue];
+        [_weatherData addObject:aWeather];
     }
     
-        
-    // clouds
-     _cloudCover  = [_weatherDic[@"cloud"][@"all"] integerValue];
-    
-    // current time
-    _reportTime =[NSDate dateWithTimeIntervalSince1970:[_weatherDic[@"dt"]doubleValue]];
-    
-    //main
-    _humidity=[_weatherDic [@"humidity"]integerValue];
-    _pressure=[_weatherDic [@"pressure"]integerValue];
-    _tempCurrent=[Weather kelvinToCelsius:[_weatherDic[@"temp"][@"day"]doubleValue]];
-    _tempMin=[Weather kelvinToCelsius:[_weatherDic[@"temp"][@"min"]doubleValue]];
-    _tempMax=[Weather kelvinToCelsius:[_weatherDic[@"temp"][@"max"]doubleValue]];
-    
-    //weather
-    _conditions= _weatherDic[@"weather"];
-   
-    //wind
-    _windSpeed=[_weatherDic[@"speed"]doubleValue];
-    _windDirection= [_weatherDic[@"deg"]doubleValue];
-    
-
 }
+ */
 
-+(double)kelvinToCelsius:(double)degreesKelvin
+-(double)kelvinToCelsius:(double)degreesKelvin
 {
     const double  ZERO_CELSIUS_IN_KELVIN = 273.15;
     return degreesKelvin - ZERO_CELSIUS_IN_KELVIN;
